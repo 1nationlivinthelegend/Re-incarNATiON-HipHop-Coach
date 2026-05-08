@@ -1,0 +1,24 @@
+{
+  "name": "Hip Hop Coach",
+  "short_name": "HH Coach",
+  "description": "Be Heard. Be Respected. Be Legendary. — AI-powered Hip Hop coaching from Re-incarNATiON Music Academy.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#C9A84C",
+  "orientation": "portrait-primary",
+  "icons": [
+    {
+      "src": "/icons/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/icons/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

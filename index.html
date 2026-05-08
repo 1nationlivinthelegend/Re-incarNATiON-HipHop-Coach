@@ -1,9 +1,4 @@
 
-bash
-
-cat /home/claude/index.html
-Output
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,6 +6,13 @@ Output
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Re-incarNATiON Hip Hop Coach</title>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="manifest" href="/manifest.json">
+<meta name="theme-color" content="#C9A84C">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Hip Hop Coach">
+<link rel="apple-touch-icon" href="/icons/icon-512.png">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
   :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#9A7A2E;--black:#080808;--surface:#111;--surface2:#1A1A1A;--border:#2A2A2A;--text:#F0F0F0;--text-muted:#888;--red:#E05252;--green:#52C97A}
   *{margin:0;padding:0;box-sizing:border-box}
@@ -182,6 +184,8 @@ function otrLevel(n){if(!n)return'Re-incarNATiON Music Academy';if(n>=9)return'E
 function formatCoaching(text){return'<p>'+text.replace(/🎙️\s*THE VIBE CHECK/g,'<h3>🎙️ The Vibe Check</h3>').replace(/⚖️\s*TECHNICAL BREAKDOWN/g,'<h3>⚖️ Technical Breakdown</h3>').replace(/📊\s*TECHNICAL SCORECARD/g,'<h3>📊 Technical Scorecard</h3>').replace(/🚀\s*THE NEXT STEP/g,'<h3>🚀 The Next Step</h3>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')+'</p>'}
 function displayResults(text){const rd=parseScore(text,/Rhyme Density[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const pc=parseScore(text,/Pocket[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const va=parseScore(text,/Vocal Authority[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const wn=parseScore(text,/Wordplay[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const otr=parseScore(text,/OTR[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);document.getElementById('otr-display').textContent=otr?otr.toFixed(1):'—';document.getElementById('otr-level').textContent=otrLevel(otr);[['sc-rd',rd],['sc-pc',pc],['sc-va',va],['sc-wn',wn]].forEach(([id,val])=>{const el=document.getElementById(id);el.textContent=val?val.toFixed(1):'—';el.className='score-num '+scoreColor(val)});document.getElementById('coaching-content').innerHTML=formatCoaching(text);document.getElementById('results').classList.add('show');document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'})}
 function resetApp(){document.getElementById('text-bars').value='';document.getElementById('text-artist').value='';document.getElementById('audio-lyrics').value='';document.getElementById('audio-artist').value='';removeFile();document.getElementById('results').classList.remove('show');clearError();window.scrollTo({top:0,behavior:'smooth'})}
+// Register service worker for PWA installability
+if("serviceWorker"in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(e=>console.warn("SW:",e)))}
 </script>
 </body>
 </html>
