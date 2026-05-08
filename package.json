@@ -1,0 +1,20 @@
+{
+  "name": "reincarnation-coach-functions",
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.52.0",
+    "@supabase/supabase-js": "^2.49.4",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@netlify/functions": "^3.0.0",
+    "@types/node": "^22.0.0",
+    "typescript": "^5.6.0",
+    "vitest": "^2.0.0"
+  }
+}
