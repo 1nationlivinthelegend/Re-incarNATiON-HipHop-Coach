@@ -1,6 +1,11 @@
 [functions]
   directory = "netlify/functions"
 
+[[redirects]]
+  from = "/coach"
+  to = "/coach.html"
+  status = 200
+
 [[headers]]
   for = "/api/*"
   [headers.values]

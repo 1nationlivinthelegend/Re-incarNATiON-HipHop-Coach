@@ -1,191 +1,164 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Re-incarNATiON Hip Hop Coach</title>
+<title>Re-incarNATiON Music — Hip Hop Therapy · Academy · Coach</title>
+<meta name="description" content="Re-incarNATiON Music Academy. A clinically-informed Hip Hop Therapy program out of Portland, OR. The AI Coach App + the Academy. WE ALL STAND AS 1.">
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
-<link rel="manifest" href="/manifest.json">
 <meta name="theme-color" content="#C9A84C">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Hip Hop Coach">
-<link rel="apple-touch-icon" href="/icons/icon-512.png">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 <style>
-  :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#9A7A2E;--black:#080808;--surface:#111;--surface2:#1A1A1A;--border:#2A2A2A;--text:#F0F0F0;--text-muted:#888;--red:#E05252;--green:#52C97A}
+  :root{--gold:#C9A84C;--gold-light:#E8C96A;--gold-dark:#9A7A2E;--black:#080808;--surface:#111;--surface2:#1A1A1A;--border:#2A2A2A;--text:#F0F0F0;--text-muted:#888}
   *{margin:0;padding:0;box-sizing:border-box}
-  body{background:var(--black);color:var(--text);font-family:'Inter',sans-serif;min-height:100vh}
+  body{background:var(--black);color:var(--text);font-family:'Inter',sans-serif;line-height:1.6}
+  a{color:var(--gold);text-decoration:none}
+  a:hover{color:var(--gold-light)}
   .header{padding:28px 40px 20px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;position:relative}
   .header::after{content:'';position:absolute;bottom:-1px;left:0;width:180px;height:1px;background:var(--gold)}
   .logo{font-family:'Bebas Neue',sans-serif;font-size:2rem;letter-spacing:.08em}
   .logo .nat{color:var(--gold)}
   .tagline{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase;margin-top:4px}
   .badge{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--gold);border:1px solid var(--gold-dark);padding:6px 12px;letter-spacing:.1em;text-transform:uppercase}
-  .main{max-width:860px;margin:0 auto;padding:44px 24px}
-  .tabs{display:flex;border-bottom:1px solid var(--border);margin-bottom:36px}
-  .tab{font-family:'Space Mono',monospace;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);padding:14px 28px;cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;margin-bottom:-1px;transition:all .2s}
-  .tab:hover{color:var(--text)}
-  .tab.active{color:var(--gold);border-bottom-color:var(--gold)}
-  .form-section{display:none}
-  .form-section.active{display:block}
-  .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:16px}
-  .form-group{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
-  label{font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)}
-  input,select,textarea{background:var(--surface);border:1px solid var(--border);color:var(--text);padding:12px 16px;font-family:'Inter',sans-serif;font-size:.9rem;outline:none;transition:border-color .2s;width:100%;-webkit-appearance:none}
-  input:focus,select:focus,textarea:focus{border-color:var(--gold-dark)}
-  select{cursor:pointer;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%23888' stroke-width='1.5' fill='none'/%3E%3C/svg%3E");background-repeat:no-repeat;background-position:right 14px center;padding-right:36px}
-  select option{background:var(--surface2)}
-  textarea{resize:vertical;min-height:160px;line-height:1.6;font-size:.88rem}
-  .mode-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-  .mode-card{border:1px solid var(--border);padding:16px 12px;cursor:pointer;transition:all .2s;text-align:center;background:var(--surface)}
-  .mode-card:hover{border-color:var(--gold-dark)}
-  .mode-card.active{border-color:var(--gold);background:rgba(201,168,76,.08)}
-  .mode-icon{font-size:1.4rem;margin-bottom:6px}
-  .mode-name{font-family:'Bebas Neue',sans-serif;font-size:.85rem;letter-spacing:.08em;color:var(--text);margin-bottom:4px}
-  .mode-card.active .mode-name{color:var(--gold)}
-  .mode-desc{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--text-muted);letter-spacing:.04em;line-height:1.5}
-  .drop-zone{border:1px dashed var(--border);padding:48px 24px;text-align:center;cursor:pointer;transition:all .2s;position:relative;margin-bottom:16px}
-  .drop-zone:hover,.drop-zone.dragover{border-color:var(--gold-dark);background:rgba(201,168,76,.04)}
-  .drop-zone input[type="file"]{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%;padding:0;border:none}
-  .drop-icon{font-size:2rem;margin-bottom:12px;opacity:.6}
-  .drop-title{font-family:'Bebas Neue',sans-serif;font-size:1.3rem;letter-spacing:.08em;color:var(--text-muted);margin-bottom:6px}
-  .drop-sub{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
-  .file-selected{display:none;align-items:center;gap:12px;padding:14px 16px;background:rgba(201,168,76,.08);border:1px solid var(--gold-dark);margin-bottom:16px}
-  .file-selected.show{display:flex}
-  .file-name{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--gold);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
-  .file-remove{background:none;border:none;color:var(--text-muted);cursor:pointer;font-size:1rem;padding:0 4px}
-  .btn-submit{width:100%;padding:18px;background:var(--gold);color:var(--black);border:none;font-family:'Bebas Neue',sans-serif;font-size:1.2rem;letter-spacing:.15em;cursor:pointer;transition:all .2s;margin-top:8px}
-  .btn-submit:hover:not(:disabled){background:var(--gold-light);transform:translateY(-1px)}
-  .btn-submit:disabled{opacity:.4;cursor:not-allowed;transform:none}
-  .loading-state{display:none;text-align:center;padding:60px 24px}
-  .loading-state.show{display:block}
-  .loading-bar{width:100%;height:2px;background:var(--border);margin-bottom:32px;overflow:hidden}
-  .loading-bar-fill{height:100%;background:var(--gold);animation:loadpulse 1.5s ease-in-out infinite;width:40%}
-  @keyframes loadpulse{0%{transform:translateX(-100%)}100%{transform:translateX(350%)}}
-  .loading-label{font-family:'Space Mono',monospace;font-size:.72rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
-  .error-box{display:none;background:rgba(224,82,82,.08);border:1px solid var(--red);padding:16px 20px;margin-bottom:20px;font-family:'Space Mono',monospace;font-size:.72rem;color:var(--red);line-height:1.6}
-  .error-box.show{display:block}
-  .results{display:none;animation:fadeUp .4s ease}
-  .results.show{display:block}
-  @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
-  .otr-banner{display:flex;align-items:center;gap:24px;padding:28px 32px;background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);margin-bottom:24px}
-  .otr-score{font-family:'Bebas Neue',sans-serif;font-size:4rem;color:var(--gold);line-height:1;min-width:100px;text-align:center}
-  .otr-label{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--text-muted);letter-spacing:.15em;text-transform:uppercase;margin-bottom:6px}
-  .otr-desc{font-size:.85rem;color:var(--text-muted);line-height:1.5}
-  .scorecard{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-bottom:24px}
-  .score-cell{background:var(--surface);padding:20px 16px;text-align:center}
-  .score-num{font-family:'Bebas Neue',sans-serif;font-size:2.2rem;line-height:1;margin-bottom:4px}
-  .score-pillar{font-family:'Space Mono',monospace;font-size:.52rem;color:var(--text-muted);letter-spacing:.08em;text-transform:uppercase;margin-bottom:2px}
-  .score-weight{font-size:.65rem;color:var(--text-muted);opacity:.6}
-  .coaching-content{background:var(--surface);border:1px solid var(--border);padding:32px;line-height:1.8;font-size:.9rem}
-  .coaching-content h3{font-family:'Bebas Neue',sans-serif;font-size:1.1rem;letter-spacing:.1em;color:var(--gold);margin:28px 0 12px;padding-bottom:8px;border-bottom:1px solid var(--border)}
-  .coaching-content h3:first-child{margin-top:0}
-  .coaching-content p{margin-bottom:12px}
-  .coaching-content strong{color:var(--gold-light);font-weight:600}
-  .btn-reset{width:100%;padding:16px;background:transparent;color:var(--text-muted);border:1px solid var(--border);font-family:'Space Mono',monospace;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;margin-top:20px;transition:all .2s}
-  .btn-reset:hover{border-color:var(--gold-dark);color:var(--gold)}
-  .score-elite{color:var(--gold)}.score-pro{color:#7ED4A0}.score-mid{color:#E8C96A}.score-low{color:var(--red)}
-  footer{text-align:center;padding:32px;border-top:1px solid var(--border);margin-top:80px;font-family:'Space Mono',monospace;font-size:.58rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase}
-  @media(max-width:640px){.header{padding:20px}.main{padding:28px 16px}.form-row{grid-template-columns:1fr}.mode-grid{grid-template-columns:1fr}.scorecard{grid-template-columns:repeat(2,1fr)}.otr-score{font-size:3rem}.coaching-content{padding:20px}}
+  .container{max-width:980px;margin:0 auto;padding:0 24px}
+  .hero{padding:120px 0 80px;text-align:center;border-bottom:1px solid var(--border)}
+  .hero h1{font-family:'Bebas Neue',sans-serif;font-size:4.4rem;letter-spacing:.04em;line-height:1.05;margin-bottom:24px}
+  .hero h1 .accent{color:var(--gold)}
+  .hero-sub{font-family:'Space Mono',monospace;font-size:.78rem;color:var(--text-muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:36px}
+  .hero-statement{max-width:680px;margin:0 auto;font-size:1.05rem;color:var(--text);opacity:.85;line-height:1.7}
+  .anchor{font-family:'Bebas Neue',sans-serif;font-size:.8rem;letter-spacing:.18em;color:var(--gold);margin-top:48px;display:inline-block;padding:14px 28px;border:1px solid var(--gold-dark);transition:all .2s}
+  .anchor:hover{background:var(--gold);color:var(--black)}
+  section{padding:80px 0;border-bottom:1px solid var(--border)}
+  .section-label{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text-muted);letter-spacing:.2em;text-transform:uppercase;margin-bottom:14px}
+  .section-title{font-family:'Bebas Neue',sans-serif;font-size:2.6rem;letter-spacing:.05em;margin-bottom:28px}
+  .section-title .accent{color:var(--gold)}
+  .section-lead{font-size:1.05rem;color:var(--text);opacity:.82;line-height:1.7;margin-bottom:40px;max-width:760px}
+  .pillar-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);margin-top:32px}
+  .pillar{background:var(--surface);padding:32px 26px}
+  .pillar-num{font-family:'Space Mono',monospace;font-size:.6rem;color:var(--gold);letter-spacing:.18em;margin-bottom:10px}
+  .pillar-name{font-family:'Bebas Neue',sans-serif;font-size:1.35rem;letter-spacing:.06em;color:var(--text);margin-bottom:8px}
+  .pillar-clinical{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--text-muted);letter-spacing:.1em;text-transform:uppercase;margin-bottom:18px}
+  .pillar-body{font-size:.9rem;color:var(--text);opacity:.75;line-height:1.65}
+  .rubric-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:32px;margin-bottom:36px}
+  .rubric-cell{background:var(--surface);padding:24px 18px;text-align:center}
+  .rubric-name{font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.06em;color:var(--gold);margin-bottom:6px;min-height:48px;display:flex;align-items:center;justify-content:center}
+  .rubric-weight{font-family:'Space Mono',monospace;font-size:.65rem;color:var(--text-muted);letter-spacing:.12em}
+  .cta-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:32px}
+  .cta-primary{padding:16px 32px;background:var(--gold);color:var(--black);font-family:'Bebas Neue',sans-serif;font-size:1.05rem;letter-spacing:.12em;border:none;cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+  .cta-primary:hover{background:var(--gold-light);color:var(--black);transform:translateY(-1px)}
+  .cta-secondary{padding:16px 32px;background:transparent;color:var(--gold);font-family:'Space Mono',monospace;font-size:.75rem;letter-spacing:.14em;text-transform:uppercase;border:1px solid var(--gold-dark);cursor:pointer;text-decoration:none;display:inline-block;transition:all .2s}
+  .cta-secondary:hover{border-color:var(--gold);color:var(--gold-light)}
+  .mission-quote{font-family:'Inter',sans-serif;font-size:1.05rem;font-style:italic;color:var(--text);opacity:.85;line-height:1.75;border-left:3px solid var(--gold);padding:8px 0 8px 28px;max-width:760px;margin-top:32px}
+  .mission-attrib{font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text-muted);letter-spacing:.16em;text-transform:uppercase;margin-top:18px}
+  .facts-row{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);margin-top:36px}
+  .fact{background:var(--surface);padding:24px 18px;text-align:center}
+  .fact-num{font-family:'Bebas Neue',sans-serif;font-size:1.9rem;color:var(--gold);line-height:1}
+  .fact-label{font-family:'Space Mono',monospace;font-size:.58rem;color:var(--text-muted);letter-spacing:.14em;text-transform:uppercase;margin-top:8px}
+  footer{padding:48px 24px 36px;text-align:center;font-family:'Space Mono',monospace;font-size:.62rem;color:var(--text-muted);letter-spacing:.14em;text-transform:uppercase}
+  footer .stand{display:block;margin-top:14px;color:var(--gold);letter-spacing:.22em}
+  @media(max-width:780px){.header{padding:20px}.hero{padding:80px 0 60px}.hero h1{font-size:2.6rem}.section-title{font-size:1.8rem}.pillar-grid,.rubric-grid,.facts-row{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
 <header class="header">
   <div>
     <div class="logo">Re-incar<span class="nat">NAT</span>iON</div>
-    <div class="tagline">Hip Hop Coach — AI-Powered Lyrical Analysis</div>
+    <div class="tagline">Music · Therapy · Academy · Portland, OR</div>
   </div>
-  <div class="badge">The Academy</div>
+  <div class="badge">EST. 2026</div>
 </header>
-<main class="main">
-  <div class="tabs">
-    <button class="tab active" onclick="switchTab('text')">🎤 Drop Bars</button>
-    <button class="tab" onclick="switchTab('audio')">🎵 Drop Audio</button>
+
+<section class="hero">
+  <div class="container">
+    <h1>WHERE PAIN<br>BECOMES <span class="accent">THE ALBUM</span></h1>
+    <div class="hero-sub">Hip Hop Therapy · Artist Development · Re-incarNATiON Music LLC</div>
+    <p class="hero-statement">Re-incarNATiON is a clinically-informed Hip Hop Therapy program built for the artists nobody knew how to reach. Every artist who walks through finishes one complete album — and the program built around them measures the journey in real outcomes.</p>
+    <a href="#coach" class="anchor">Try The Coach →</a>
   </div>
-  <div class="error-box" id="error-box"></div>
-  <div class="form-section active" id="tab-text">
-    <div class="form-row">
-      <div class="form-group" style="margin:0"><label>Artist Name (optional)</label><input type="text" id="text-artist" placeholder="Your artist name"></div>
-      <div class="form-group" style="margin:0"><label>Your Style</label><select id="text-style"><option>Boom Bap</option><option>Trap</option><option>Melodic Rap</option><option>Drill</option><option>Conscious</option><option>Street</option><option>Freestyle</option></select></div>
-    </div>
-    <div class="form-group">
-      <label>Coaching Mode</label>
-      <div class="mode-grid">
-        <div class="mode-card active" id="t-yb" onclick="selectMode('yungbing','text')"><div class="mode-icon">🎯</div><div class="mode-name">Yung Bing Mode</div><div class="mode-desc">Bar-heavy · Complexity-first · Kendrick / Cole / Joyner lens</div></div>
-        <div class="mode-card" id="t-hf" onclick="selectMode('hustle','text')"><div class="mode-icon">⚖️</div><div class="mode-name">Hustle & Flow Panel</div><div class="mode-desc">Khaled · Ludacris · Latto · Big Sean scoring your verse</div></div>
-        <div class="mode-card" id="t-og" onclick="selectMode('opengenre','text')"><div class="mode-icon">🎨</div><div class="mode-name">Open Genre Mode</div><div class="mode-desc">Style fingerprint first · Coaches to YOUR lane</div></div>
+</section>
+
+<section id="mission">
+  <div class="container">
+    <div class="section-label">The Mission</div>
+    <h2 class="section-title">WE ALL <span class="accent">STAND AS 1</span></h2>
+    <p class="section-lead">Re-incarNATiON Music LLC was founded in Portland, Oregon, by Kris Joe (Yung Bing) — a 1-man team building the infrastructure to raise frequencies, lower crime, and turn lived experience into industry-level art. The product is healing. The deliverable is an album. The standard is excellence.</p>
+    <blockquote class="mission-quote">
+      "I didn't build this NATiON for my own bright light to shine. I built it so you can find yours — and we forever shine as one."
+      <div class="mission-attrib">— Kris Joe / Yung Bing, Founder</div>
+    </blockquote>
+  </div>
+</section>
+
+<section id="academy">
+  <div class="container">
+    <div class="section-label">Entity 01 — The Program</div>
+    <h2 class="section-title">RE-INCARNATION <span class="accent">MUSIC ACADEMY</span></h2>
+    <p class="section-lead">A 6–12 month Hip Hop Therapy program for artists ready to mine the story, sharpen the craft, and finish the album. Clinically informed. Culturally rooted. Outcome-measured with PHQ-9 and GAD-7 intake / midpoint / exit assessments.</p>
+
+    <div class="pillar-grid">
+      <div class="pillar">
+        <div class="pillar-num">PILLAR 01</div>
+        <div class="pillar-name">Narrative Reconstruction</div>
+        <div class="pillar-clinical">Cognitive Processing Therapy</div>
+        <div class="pillar-body">Workbook-driven. Six chapters that mine the artist's full story arc — origin, darkest chapter, shadow, turning point, the build, the legacy. Every chapter feeds the album.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">PILLAR 02</div>
+        <div class="pillar-name">Identity & Legacy</div>
+        <div class="pillar-clinical">Pro-Social Identity Therapy</div>
+        <div class="pillar-body">Technical skill build across producing, engineering, performance, and digital presence. Artist leaves with a completed album AND a professional identity — author, not product of environment.</div>
+      </div>
+      <div class="pillar">
+        <div class="pillar-num">PILLAR 03</div>
+        <div class="pillar-name">The Cypher</div>
+        <div class="pillar-clinical">Therapeutic Community Model</div>
+        <div class="pillar-body">The cohort. The circle. Group sessions, peer feedback, shared showcase moments. The Cypher replaces the gang — bonds form around creation, not criminality. Nobody builds alone in the NATiON.</div>
       </div>
     </div>
-    <div class="form-group"><label>Your Bars</label><textarea id="text-bars" placeholder="Drop your verse, bars, or freestyle here..."></textarea></div>
-    <button class="btn-submit" id="btn-text" onclick="coachText()">Get Coached</button>
+
+    <div class="facts-row">
+      <div class="fact"><div class="fact-num">4</div><div class="fact-label">Program Phases</div></div>
+      <div class="fact"><div class="fact-num">6–12</div><div class="fact-label">Month Duration</div></div>
+      <div class="fact"><div class="fact-num">5</div><div class="fact-label">Enrollment Tiers</div></div>
+      <div class="fact"><div class="fact-num">1</div><div class="fact-label">Completed Album</div></div>
+    </div>
   </div>
-  <div class="form-section" id="tab-audio">
-    <div class="form-row">
-      <div class="form-group" style="margin:0"><label>Artist Name (optional)</label><input type="text" id="audio-artist" placeholder="Your artist name"></div>
-      <div class="form-group" style="margin:0"><label>Your Style</label><select id="audio-style"><option>Boom Bap</option><option>Trap</option><option>Melodic Rap</option><option>Drill</option><option>Conscious</option><option>Street</option><option>Freestyle</option></select></div>
+</section>
+
+<section id="coach">
+  <div class="container">
+    <div class="section-label">Entity 02 — The Tool</div>
+    <h2 class="section-title">HIP HOP <span class="accent">COACH APP</span></h2>
+    <p class="section-lead">AI-powered lyrical analysis built on a 4-pillar technical rubric. Drop your bars or your audio — get a verdict from a veteran A&R lens, not generic praise. Three coaching modes: Yung Bing (bar-heavy), Hustle &amp; Flow Panel (4-judge), or Open Genre (calibrates to your lane).</p>
+
+    <div class="rubric-grid">
+      <div class="rubric-cell"><div class="rubric-name">Pocket &amp; Cadence</div><div class="rubric-weight">30%</div></div>
+      <div class="rubric-cell"><div class="rubric-name">Rhyme Density</div><div class="rubric-weight">25%</div></div>
+      <div class="rubric-cell"><div class="rubric-name">Vocal Authority &amp; Breath</div><div class="rubric-weight">25%</div></div>
+      <div class="rubric-cell"><div class="rubric-name">Wordplay &amp; Narrative</div><div class="rubric-weight">20%</div></div>
     </div>
-    <div class="form-group">
-      <label>Coaching Mode</label>
-      <div class="mode-grid">
-        <div class="mode-card active" id="a-yb" onclick="selectMode('yungbing','audio')"><div class="mode-icon">🎯</div><div class="mode-name">Yung Bing Mode</div><div class="mode-desc">Bar-heavy · Complexity-first · Kendrick / Cole / Joyner lens</div></div>
-        <div class="mode-card" id="a-hf" onclick="selectMode('hustle','audio')"><div class="mode-icon">⚖️</div><div class="mode-name">Hustle & Flow Panel</div><div class="mode-desc">Khaled · Ludacris · Latto · Big Sean scoring your verse</div></div>
-        <div class="mode-card" id="a-og" onclick="selectMode('opengenre','audio')"><div class="mode-icon">🎨</div><div class="mode-name">Open Genre Mode</div><div class="mode-desc">Style fingerprint first · Coaches to YOUR lane</div></div>
-      </div>
+
+    <div class="cta-row">
+      <a href="/coach" class="cta-primary">Drop Your Bars →</a>
+      <a href="#academy" class="cta-secondary">Read About The Academy</a>
     </div>
-    <label style="display:block;margin-bottom:8px;font-family:'Space Mono',monospace;font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:var(--text-muted)">Audio File</label>
-    <div class="drop-zone" id="drop-zone">
-      <input type="file" id="audio-file" accept=".mp3,.wav,.m4a,audio/*" onchange="fileSelected(this)">
-      <div class="drop-icon">🎙️</div>
-      <div class="drop-title">Drag & Drop Your Audio</div>
-      <div class="drop-sub">MP3 · WAV · M4A — Best under 60 seconds</div>
-    </div>
-    <div class="file-selected" id="file-selected"><span>🎵</span><span class="file-name" id="file-name-display"></span><button class="file-remove" onclick="removeFile()">✕</button></div>
-    <div class="form-group"><label>Paste Your Lyrics Too (optional)</label><textarea id="audio-lyrics" placeholder="Optional: paste what you recorded..." style="min-height:100px"></textarea></div>
-    <button class="btn-submit" id="btn-audio" onclick="coachAudio()">Get Coached</button>
   </div>
-  <div class="loading-state" id="loading"><div class="loading-bar"><div class="loading-bar-fill"></div></div><div class="loading-label" id="loading-label">Coach is in the booth...</div></div>
-  <div class="results" id="results">
-    <div class="otr-banner"><div class="otr-score" id="otr-display">—</div><div><div class="otr-label">Overall Technical Rating</div><div class="otr-desc" id="otr-level">Re-incarNATiON Music Academy</div></div></div>
-    <div class="scorecard">
-      <div class="score-cell"><div class="score-pillar">Rhyme Density</div><div class="score-num score-mid" id="sc-rd">—</div><div class="score-weight">25%</div></div>
-      <div class="score-cell"><div class="score-pillar">Pocket & Cadence</div><div class="score-num score-mid" id="sc-pc">—</div><div class="score-weight">30%</div></div>
-      <div class="score-cell"><div class="score-pillar">Vocal Authority</div><div class="score-num score-mid" id="sc-va">—</div><div class="score-weight">25%</div></div>
-      <div class="score-cell"><div class="score-pillar">Wordplay & Narrative</div><div class="score-num score-mid" id="sc-wn">—</div><div class="score-weight">20%</div></div>
-    </div>
-    <div class="coaching-content" id="coaching-content"></div>
-    <button class="btn-reset" onclick="resetApp()">↺ Drop Another Verse</button>
+</section>
+
+<section id="connect">
+  <div class="container">
+    <div class="section-label">Connect</div>
+    <h2 class="section-title">JOIN <span class="accent">THE NATiON</span></h2>
+    <p class="section-lead">Re-incarNATiON Music LLC is based in Portland, Oregon. Reach out for Academy enrollment, partnerships, grant inquiries, or to share your story.</p>
+    <p style="font-family:'Space Mono',monospace;font-size:.85rem;color:var(--text);letter-spacing:.04em;margin-top:24px">
+      Portland Metro · NW Coast<br>
+      Founder: Kris Joe / Yung Bing / iAMBING0
+    </p>
   </div>
-</main>
-<footer>Re-incarNATiON Music Academy © 2026 | Portland, OR | Kris Joe / iAMBING0 / Yung Bing</footer>
-<script>
-let selectedFile=null,activeTab='text',textMode='yungbing',audioMode='yungbing';
-function switchTab(t){activeTab=t;document.querySelectorAll('.tab').forEach((el,i)=>el.classList.toggle('active',(i===0&&t==='text')||(i===1&&t==='audio')));document.getElementById('tab-text').classList.toggle('active',t==='text');document.getElementById('tab-audio').classList.toggle('active',t==='audio');clearError()}
-function selectMode(m,t){const map={yungbing:t==='text'?'t-yb':'a-yb',hustle:t==='text'?'t-hf':'a-hf',opengenre:t==='text'?'t-og':'a-og'};if(t==='text'){textMode=m;['t-yb','t-hf','t-og'].forEach(id=>document.getElementById(id).classList.remove('active'))}else{audioMode=m;['a-yb','a-hf','a-og'].forEach(id=>document.getElementById(id).classList.remove('active'))}document.getElementById(map[m]).classList.add('active')}
-function showError(msg){const b=document.getElementById('error-box');b.textContent=msg;b.classList.add('show')}
-function clearError(){document.getElementById('error-box').classList.remove('show')}
-function fileSelected(input){if(input.files&&input.files[0]){selectedFile=input.files[0];document.getElementById('file-name-display').textContent=selectedFile.name+' ('+(selectedFile.size/1024/1024).toFixed(1)+'MB)';document.getElementById('file-selected').classList.add('show')}}
-function removeFile(){selectedFile=null;document.getElementById('audio-file').value='';document.getElementById('file-selected').classList.remove('show')}
-const dz=document.getElementById('drop-zone');
-dz.addEventListener('dragover',e=>{e.preventDefault();dz.classList.add('dragover')});
-dz.addEventListener('dragleave',()=>dz.classList.remove('dragover'));
-dz.addEventListener('drop',e=>{e.preventDefault();dz.classList.remove('dragover');const f=e.dataTransfer.files[0];if(f){selectedFile=f;document.getElementById('file-name-display').textContent=f.name;document.getElementById('file-selected').classList.add('show')}});
-function setLoading(show,label){document.getElementById('loading').classList.toggle('show',show);document.getElementById('results').classList.remove('show');if(label)document.getElementById('loading-label').textContent=label;document.getElementById('btn-text').disabled=show;document.getElementById('btn-audio').disabled=show}
-const SYSTEM_PROMPT=`You are the AI Coach of Re-incarNATiON Music Academy — a veteran Hip Hop A&R, technical performance coach, and lyrical strategist with 20+ years in the game. DIRECT. TECHNICAL. HUMAN. CONSTRUCTIVE. CULTURALLY ROOTED. Never give generic praise.\n\n4-PILLAR RUBRIC — score each out of 10, calculate weighted OTR:\n- Pocket & Cadence (PC): 30% weight\n- Rhyme Density (RD): 25% weight\n- Vocal Authority & Breath (VABC): 25% weight\n- Wordplay & Narrative (WNO): 20% weight\n\nSCORING: 1-3 Amateur, 4-6 Developing, 7-8 Intermediate-Pro, 9-10 Pro/Elite\n\nRULES:\n- Stop-The-Tape Standard: every verse must shift gears at least once or score is capped\n- Four-Bar Haymaker Rule: no haymakers = WNO cannot exceed 6.0\n- Style Fingerprint First: identify lane before scoring, never impose bar-heavy standards on melodic artists\n- Strength-First Diagnostic: always identify what is working with specificity first\n- If OTR below 7.0, assign 2 drills from: Multi-Chain Builder, Ghost Beat Challenge, One-Breath Sprint, Anti-Cliche Rewrite, Confession Bar, Scheme Blueprint\n\nOUTPUT FORMAT — use EXACTLY this every time:\n\n🎙️ THE VIBE CHECK\n[2-3 sentences on mood, energy, authenticity]\n\n⚖️ TECHNICAL BREAKDOWN\nPocket & Cadence (PC): [specific observations]\nVocal Authority (VABC): [delivery, energy arc, breath]\nRhyme Architecture (RD): [scheme, multis, internal rhymes]\nWordplay & Narrative (WNO): [cliches, strong bars, haymaker check]\n\n📊 TECHNICAL SCORECARD\nRhyme Density: X/10 — [one line]\nPocket & Cadence: X/10 — [one line]\nVocal Authority: X/10 — [one line]\nWordplay & Narrative: X/10 — [one line]\nOTR: X.X/10\n\n🚀 THE NEXT STEP\n[2 drills if OTR below 7.0, or one specific direction if above]`;
-const MODE_PROMPTS={yungbing:'COACHING MODE: YUNG BING MODE — highest bar-heavy lyrical standard. Rhyme density expectations are HIGH. Multisyllabic chains and internal mosaics are the benchmark. Four-Bar Haymaker Rule strictly enforced. Be direct and unsparing.',hustle:'COACHING MODE: HUSTLE & FLOW JUDGE PANEL — evaluate as FOUR real judges from Netflix Rhythm + Flow Season 2:\n\nDJ KHALED: Motivational powerhouse. Looks for the glow — star quality. Loves strong hooks, raw authenticity. Hates artists who do too much at once.\n\nLUDACRIS: Precision and trajectory. Is this artist ASCENDING? Loves growth and the human element. Hates unpreparedness and stagnation.\n\nLATTO: Empathetic realist — she won a rap competition herself. Looks for full package: originality, live performance, hustle. Loves emotional authentic storytelling.\n\nBIG SEAN: Detroit introspective voice. Evaluates emotional connection and relatability. Loves personal storytelling about real struggle.\n\nGive each judge their own reaction and OTR score. End with PANEL VERDICT — average OTR and what the panel agrees on.',opengenre:'COACHING MODE: OPEN GENRE MODE — Style fingerprint FIRST. Identify lyric-forward vs melody-forward before anything else. Calibrate ALL benchmarks to their lane. Never impose bar-heavy standards on a melodic artist.'};
-const CLAUDE_KEY='[REMOVED-LEAKED-KEY]';
-async function callClaude(userMsg){const res=await fetch('https://api.anthropic.com/v1/messages',{method:'POST',headers:{'Content-Type':'application/json','x-api-key':CLAUDE_KEY,'anthropic-version':'2023-06-01','anthropic-dangerous-direct-browser-calls':'true'},body:JSON.stringify({model:'claude-sonnet-4-20250514',max_tokens:1500,system:SYSTEM_PROMPT,messages:[{role:'user',content:userMsg}]})});if(!res.ok){const e=await res.json().catch(()=>({}));throw new Error(e.error?.message||'API error '+res.status)}const d=await res.json();return d.content[0].text}
-async function coachText(){clearError();const bars=document.getElementById('text-bars').value.trim();const artist=document.getElementById('text-artist').value.trim();const style=document.getElementById('text-style').value;if(!bars)return showError('Drop your bars first.');setLoading(true,'Coach is reading your bars...');try{const msg=`${MODE_PROMPTS[textMode]}\n\nArtist: ${artist||'Unknown'}\nStyle: ${style}\n\nBARS SUBMITTED:\n${bars}\n\nGive the full coaching breakdown.`;const result=await callClaude(msg);displayResults(result)}catch(err){showError('Error: '+err.message)}finally{setLoading(false)}}
-async function coachAudio(){clearError();const artist=document.getElementById('audio-artist').value.trim();const style=document.getElementById('audio-style').value;const lyrics=document.getElementById('audio-lyrics').value.trim();if(!selectedFile&&!lyrics)return showError('Upload audio or paste your lyrics.');setLoading(true,'Analyzing your performance...');try{const bars=lyrics||'[Audio submitted — analyze vocal delivery, pocket, breath control for this style and artist]';const msg=`${MODE_PROMPTS[audioMode]}\n\nArtist: ${artist||'Unknown'}\nStyle: ${style}\n\nBARS SUBMITTED:\n${bars}\n\nGive the full coaching breakdown.`;const result=await callClaude(msg);displayResults(result)}catch(err){showError('Error: '+err.message)}finally{setLoading(false)}}
-function parseScore(text,pattern){const m=text.match(pattern);return m?parseFloat(m[1]):null}
-function scoreColor(n){if(!n)return'score-mid';if(n>=9)return'score-elite';if(n>=7)return'score-pro';if(n>=5)return'score-mid';return'score-low'}
-function otrLevel(n){if(!n)return'Re-incarNATiON Music Academy';if(n>=9)return'Elite — Reference-level work.';if(n>=7)return'Intermediate-Pro — Solid craft. Minor refinements needed.';if(n>=5)return'Developing — Showing promise. Drills assigned below.';return'Amateur — Foundational work needed. The journey starts here.'}
-function formatCoaching(text){return'<p>'+text.replace(/🎙️\s*THE VIBE CHECK/g,'<h3>🎙️ The Vibe Check</h3>').replace(/⚖️\s*TECHNICAL BREAKDOWN/g,'<h3>⚖️ Technical Breakdown</h3>').replace(/📊\s*TECHNICAL SCORECARD/g,'<h3>📊 Technical Scorecard</h3>').replace(/🚀\s*THE NEXT STEP/g,'<h3>🚀 The Next Step</h3>').replace(/\*\*([^*]+)\*\*/g,'<strong>$1</strong>').replace(/\n\n/g,'</p><p>').replace(/\n/g,'<br>')+'</p>'}
-function displayResults(text){const rd=parseScore(text,/Rhyme Density[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const pc=parseScore(text,/Pocket[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const va=parseScore(text,/Vocal Authority[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const wn=parseScore(text,/Wordplay[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);const otr=parseScore(text,/OTR[^:]*[:\s]+(\d+(?:\.\d+)?)\s*\/\s*10/i);document.getElementById('otr-display').textContent=otr?otr.toFixed(1):'—';document.getElementById('otr-level').textContent=otrLevel(otr);[['sc-rd',rd],['sc-pc',pc],['sc-va',va],['sc-wn',wn]].forEach(([id,val])=>{const el=document.getElementById(id);el.textContent=val?val.toFixed(1):'—';el.className='score-num '+scoreColor(val)});document.getElementById('coaching-content').innerHTML=formatCoaching(text);document.getElementById('results').classList.add('show');document.getElementById('results').scrollIntoView({behavior:'smooth',block:'start'})}
-function resetApp(){document.getElementById('text-bars').value='';document.getElementById('text-artist').value='';document.getElementById('audio-lyrics').value='';document.getElementById('audio-artist').value='';removeFile();document.getElementById('results').classList.remove('show');clearError();window.scrollTo({top:0,behavior:'smooth'})}
-// Register service worker for PWA installability
-if("serviceWorker"in navigator){window.addEventListener("load",()=>navigator.serviceWorker.register("/sw.js").catch(e=>console.warn("SW:",e)))}
-</script>
+</section>
+
+<footer>
+  Re-incarNATiON Music LLC © 2026 · Portland, OR
+  <span class="stand">WE ALL STAND AS 1</span>
+</footer>
 </body>
 </html>
