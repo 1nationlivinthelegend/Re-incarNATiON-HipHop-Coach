@@ -20,9 +20,13 @@ export default async (req: Request, _context: Context) => {
     return new Response(null, { status: 204, headers: corsHeaders() });
   }
 
-  // Only SUPABASE_URL and SUPABASE_ANON_KEY are safe for browser exposure
+  // Only SUPABASE_URL and the public anon/publishable key are safe for browser exposure.
+  // Supabase rebranded "anon key" → "publishable key" — accept either name so renames don't break prod.
   const supabase_url = process.env.SUPABASE_URL ?? "";
-  const supabase_anon_key = process.env.SUPABASE_ANON_KEY ?? "";
+  const supabase_anon_key =
+    process.env.SUPABASE_ANON_KEY ??
+    process.env.SUPABASE_PUBLISHABLE_KEY ??
+    "";
 
   return new Response(
     JSON.stringify({ supabase_url, supabase_anon_key }),

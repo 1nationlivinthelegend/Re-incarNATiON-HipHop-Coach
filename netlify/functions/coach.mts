@@ -31,7 +31,11 @@ export default async (req: Request, context: Context) => {
       });
     }
 
-    const apiKey = Netlify.env.get("ANTHROPIC_API_KEY");
+    // Accept either env var name. ANTHROPIC_API_KEY is correct; ANTHROPICS_API_KEY (plural)
+    // existed in prod from an earlier setup. Fallback prevents a rename from breaking the demo.
+    const apiKey =
+      Netlify.env.get("ANTHROPIC_API_KEY") ||
+      Netlify.env.get("ANTHROPICS_API_KEY");
 
     if (!apiKey) {
       return new Response(JSON.stringify({ error: "API key not configured" }), {
